@@ -13,15 +13,51 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import Mapboxgl from 'mapbox-gl';
+import { defineComponent, ref, watch } from 'vue';
 
-import { usePlacesStore } from '@/composables';
+import { usePlacesStore, useMapStore } from '@/composables';
 
 export default defineComponent({
 	name: 'MapView',
 	setup() {
 		const mapElement = ref<HTMLDivElement>();
 		const { location, isUserLocationReady } = usePlacesStore();
+		const { setMap } = useMapStore();
+
+		const initMap = async () => {
+			if (!mapElement.value) throw new Error('mapElement is not defined');
+			if (!location.value) throw new Error('user location is not defined');
+			await Promise.resolve();
+
+			const map = new Mapboxgl.Map({
+				container: mapElement.value,
+				style: 'mapbox://styles/mapbox/dark-v10',
+				center: location.value,
+				zoom: 13,
+			});
+
+			const myLocationPopus = new Mapboxgl.Popup({ offset: [0, 0] })
+				.setLngLat(location.value)
+				.setHTML(`<h4>Tu ubicacion</h4><p>Estoy aqui</p>`)
+				.addTo(map);
+
+			const myLocationMarker = new Mapboxgl.Marker({
+				draggable: false,
+				color: '#ff0000',
+			})
+				.setLngLat(location.value)
+				.setPopup(myLocationPopus)
+				.addTo(map);
+
+			setMap(map);
+		};
+
+		watch(isUserLocationReady, value => {
+			if (value) {
+				initMap();
+			}
+		});
 
 		return {
 			mapElement,
@@ -36,7 +72,6 @@ export default defineComponent({
 	position: fixed;
 	width: 100vw;
 	height: 100vh;
-	background-color: red;
 }
 .loading {
 	top: 0px;

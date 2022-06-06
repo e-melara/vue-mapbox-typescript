@@ -4,9 +4,9 @@ import { StateInterface } from '..';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import state, { PlacesState } from './state';
+import state, { MapState } from './state';
 
-const placesModule: Module<PlacesState, StateInterface> = {
+const mapModule: Module<MapState, StateInterface> = {
 	namespaced: true,
 	actions,
 	getters,
@@ -14,5 +14,5 @@ const placesModule: Module<PlacesState, StateInterface> = {
 	state,
 };
 
-export default placesModule;
+export default mapModule;
 

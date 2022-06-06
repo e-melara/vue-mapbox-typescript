@@ -1,12 +1,18 @@
+import { Feature } from '@/interfaces/places';
+
 export interface PlacesState {
 	isLoading: boolean;
-	useLocation?: [number, number]; // lng, lat
+	placesList: Feature[];
+	isLoadingPlaces: boolean;
+	useLocation?: [number, number];
 }
 
 function state(): PlacesState {
 	return {
+		placesList: [],
 		isLoading: true,
 		useLocation: undefined,
+		isLoadingPlaces: false,
 	};
 }
 
