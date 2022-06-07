@@ -42,7 +42,7 @@ export default defineComponent({
 				.setHTML(`<h4>Tu ubicacion</h4><p>Estoy aqui</p>`)
 				.addTo(map);
 
-			const myLocationMarker = new Mapboxgl.Marker()
+			new Mapboxgl.Marker()
 				.setLngLat(location.value)
 				.setPopup(myLocationPopus)
 				.addTo(map);

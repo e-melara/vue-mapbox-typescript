@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 import { useMapStore, usePlacesStore } from '@/composables';
 
