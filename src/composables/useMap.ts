@@ -6,6 +6,8 @@ import { useStore } from 'vuex';
 import { Feature } from '@/interfaces';
 import { StateInterface } from '@/store';
 
+import { LngLat } from '@/store/map/actions';
+
 export const useMapStore = () => {
 	const store = useStore<StateInterface>();
 	return {
@@ -20,6 +22,11 @@ export const useMapStore = () => {
 		},
 		setPlaceMarkers: (places: Feature[]) =>
 			store.commit('map/setPlaceMarkets', places),
+
+		//actions
+		getRoutesBetweenPoints: (start: LngLat, end: LngLat) => {
+			store.dispatch('map/getRoutesBetweenPoints', { start, end });
+		},
 	};
 };
 

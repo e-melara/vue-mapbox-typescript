@@ -16,6 +16,7 @@
 			<p>{{ place.place_name_es }}</p>
 			<div align="right">
 				<button
+					@click="onClickPointsBetweens(place)"
 					class="btn btn-sm btn-outline-primary"
 					:class="
 						place.id === activePlace
@@ -40,8 +41,8 @@ export default defineComponent({
 	name: 'SearchResults',
 	setup() {
 		const activePlace = ref('');
-		const { map, setPlaceMarkers } = useMapStore();
-		const { isLoadingPlaces, places } = usePlacesStore();
+		const { isLoadingPlaces, places, location } = usePlacesStore();
+		const { map, setPlaceMarkers, getRoutesBetweenPoints } = useMapStore();
 
 		watch(places, newPlaces => {
 			if (places) {
@@ -59,6 +60,12 @@ export default defineComponent({
 				activePlace.value = place.id;
 				const [lng, lat] = place.center;
 				map.value?.flyTo({ center: [lng, lat], zoom: 13 });
+			},
+			onClickPointsBetweens(place: Feature) {
+				if (!location.value) return;
+				const [lng, lat] = place.center;
+				const [startLng, startLat]: [number, number] = location.value;
+				getRoutesBetweenPoints([startLng, startLat], [lng, lat]);
 			},
 		};
 	},
